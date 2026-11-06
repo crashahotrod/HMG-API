@@ -5,7 +5,8 @@
     "NEEV.USA.": "neev",
     "NEEV.CAN.": "neev_ca",
     "NEEV23.USA.": "neev",
-    "CEEV.USA.": "ev6"
+    "CEEV.USA.": "ev6",
+    "CEEV.CAN.": "ev6_ca"
   },
   "stock": "patches/{set}/stock",
   "expect": "patches/{set}/expect",

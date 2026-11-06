@@ -16,6 +16,8 @@ check() { if [ "$2" = "$3" ]; then echo "ok    $1"; else echo "FAIL  $1: wanted 
 has() { case "$3" in *"$2"*) echo "ok    $1" ;; *) echo "FAIL  $1: wanted [$2] in [$3]"; fail=1 ;; esac; }
 check "CEEV USA 260903 is supported" 1 "$(jq '[.system[] | select((.model == "CEEV" or (.model | arrays and index("CEEV"))) and .region == "USA" and .firmware == "260903" and (.features | index("hmgapi.wifi")))] | length' mods/wireless-carplay-aa/mod.json)"
 check "CEEV USA uses the validated EV patch set" ev6 "$(jq -r '.cars["CEEV.USA."]' mods/wireless-carplay-aa/patches.json)"
+check "CEEV CAN 250818 is supported" 1 "$(jq '[.system[] | select((.model == "CEEV" or (.model | arrays and index("CEEV"))) and .region == "CAN" and .firmware == "250818" and (.features | index("hmgapi.wifi")))] | length' mods/wireless-carplay-aa/mod.json)"
+check "CEEV CAN uses the CEEV USA patch set" ev6 "$(jq -r '.cars["CEEV.CAN."]' mods/wireless-carplay-aa/patches.json)"
 check "CEEV Android Auto turn-by-turn recipe is included" 1 "$(jq '[.hooks.native["libautoreceiver_infobank.so"][] | select(. == "recipes/aa-tbt-dbfe7bd2.recipe")] | length' mods/wireless-carplay-aa/mod.json)"
 CEEV_TBT=mods/wireless-carplay-aa/recipes/aa-tbt-dbfe7bd2.recipe
 check "CEEV TBT hooks routeMessage's unknown-message path" \

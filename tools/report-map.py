@@ -2,6 +2,7 @@
 """Make a car's hook map from Car Reports (the map the car made of itself).
 
 usage: report-map.py <car-report.json>... [--maps DIR] [--status probed]
+                     [--make MAKE] [--name NAME]
 
 Each report holds the on-car mapper's result ("map_car": points, the md5 of every
 file the names came from, what it didn't find). Give one or more reports from the
@@ -22,6 +23,8 @@ def main():
     ap.add_argument('reports', nargs='+')
     ap.add_argument('--maps', default=os.path.join(REPO, 'maps'))
     ap.add_argument('--status', default='probed', choices=('probed', 'mapped'))
+    ap.add_argument('--make', help='car make when the report does not identify it')
+    ap.add_argument('--name', help='display name when the report does not identify it')
     a = ap.parse_args()
     reps = []
     for f in a.reports:
@@ -30,6 +33,9 @@ def main():
             sys.exit('%s: not a Car Report with an on-car map' % f)
         reps.append((os.path.basename(f), r))
     u = reps[0][1]['unit']
+    make = a.make or u.get('make')
+    if not make:
+        sys.exit('%s: the report has no unit.make; pass --make' % reps[0][0])
     key = lambda r: (r['unit']['model'], r['unit']['region'], r['unit']['firmware'])
     for name, r in reps:
         if key(r) != key(reps[0][1]):
@@ -51,10 +57,10 @@ def main():
     by_app = {app: {} for app in mc['app_files']}
     for pid, e in mc['points'].items():
         by_app[pid.split('.')[0]][pid] = e
-    d = os.path.join(a.maps, u['make'].lower(), u['model'].lower(), u['region'].lower(), u['firmware'])
+    d = os.path.join(a.maps, make.lower(), u['model'].lower(), u['region'].lower(), u['firmware'])
     os.makedirs(d, exist_ok=True)
     car = {
-        'make': u['make'].lower(), 'model': u['model'].lower(), 'name': u.get('name') or u['model'],
+        'make': make.lower(), 'model': u['model'].lower(), 'name': a.name or u.get('name') or u['model'],
         'region': u['region'].lower(), 'firmware': u['firmware'],
         'products': ['%s.%s.' % (u['model'], u['region'])],
         'status': a.status, 'verified': None,
@@ -62,7 +68,8 @@ def main():
         'apps': sorted(by_app),
         'app_files': mc['app_files'],
     }
-    missing = {k: v for k, v in mc.get('missing', {}).items()}
+    # Reports call this not_found; accept missing as well for older report producers.
+    missing = {k: v for k, v in mc.get('not_found', mc.get('missing', {})).items()}
     if missing:
         car['missing'] = dict(sorted(missing.items()))
     if mc.get('by_reference'):

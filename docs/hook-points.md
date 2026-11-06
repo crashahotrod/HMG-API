@@ -17,7 +17,8 @@ Need one that isn't here? Open a "New hook point" issue.
 
 | Car | Map | Points |
 |---|---|---|
-| Hyundai Ioniq 6 USA 260903 | mapped on cars by HMG-API's own mapper | 343 of 343 |
+| Hyundai Ioniq 6 CAN 250818 | mapped on cars by HMG-API's own mapper | 342 of 343 |
+| Hyundai Ioniq 6 USA 260903 | checked on a car | 343 of 343 |
 | Hyundai Ioniq 5 CAN 260206 | mapped from stock files | 343 of 343 |
 | Hyundai Ioniq 5 USA 260507 | mapped from stock files | 343 of 343 |
 | Hyundai Ioniq 5 USA 260903 | mapped on cars by HMG-API's own mapper | 325 of 343 |
@@ -226,7 +227,7 @@ Android framework and the car's service interfaces (any process).
 | `framework.bcm_service.rl_seat_heat_option` | method | `getRLSeatHeatOption()` → int | 1 on the EV6: 2 levels, no ventilation | all |
 | `framework.bcm_service.rr_seat_heat_option` | method | `getRRSeatHeatOption()` → int |  | all |
 | `framework.bcm_service.batt_cond_indicator` | method | `getBattCondIndSta()` → int | battery conditioning indicator: 1 conditioning, 0 not (as Launchpad reads it) | not on Hyundai Ioniq 5 USA 260903 |
-| `framework.hev_flag.batt_cond_failure` | field | `static BMS_BATTCONDFAILPOPUP`: int | battery conditioning failure popup (raw; -1 seen when nothing's wrong) | not on Hyundai Ioniq 5 USA 260903 |
+| `framework.hev_flag.batt_cond_failure` | field | `static BMS_BATTCONDFAILPOPUP`: int | battery conditioning failure popup (raw; -1 seen when nothing's wrong) | not on Hyundai Ioniq 6 CAN 250818, Hyundai Ioniq 5 USA 260903 |
 | `framework.car_services.cluster` | field | `static CLUSTER_SERVICE`: String |  | not on Hyundai Ioniq 5 USA 260903 |
 | `framework.cluster_service` | class | `com.hkmc.cluster.IClusterService` |  | not on Hyundai Ioniq 5 USA 260903 |
 | `framework.cluster_service_stub` | class | `com.hkmc.cluster.IClusterService$Stub` |  | not on Hyundai Ioniq 5 USA 260903 |
