@@ -17,6 +17,7 @@ Need one that isn't here? Open a "New hook point" issue.
 
 | Car | Map | Points |
 |---|---|---|
+| Hyundai Ioniq 6 USA 260903 | mapped on cars by HMG-API's own mapper | 343 of 343 |
 | Hyundai Ioniq 5 CAN 260206 | mapped from stock files | 343 of 343 |
 | Hyundai Ioniq 5 USA 260507 | mapped from stock files | 343 of 343 |
 | Hyundai Ioniq 5 USA 260903 | mapped on cars by HMG-API's own mapper | 325 of 343 |

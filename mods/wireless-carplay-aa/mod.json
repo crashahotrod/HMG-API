@@ -1,7 +1,7 @@
 {
   "id": "wireless-carplay-aa",
   "name": "Wireless CarPlay + Android Auto",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "hmgapi": ">=1.0.0",
   "authors": [
     "VysseCodes"
@@ -31,6 +31,14 @@
       "features": [
         "hmgapi.wifi"
       ]
+    },
+    {
+      "model": "CEEV",
+      "region": "USA",
+      "firmware": "260903",
+      "features": [
+        "hmgapi.wifi"
+      ]
     }
   ],
   "parts": [
@@ -54,6 +62,47 @@
     "com.hkmc.software.connectivity.carplay_wireless",
     "com.hkmc.software.connectivity.androidauto_wireless"
   ],
+  "network": {
+    "rules": [
+      {
+        "chain": "input",
+        "in": "hotspot",
+        "ip": 4,
+        "proto": "tcp",
+        "comment": "Wireless Android Auto: GPM listens on fixed TCP port 40515 (0x9e43)",
+        "ports": [
+          40515
+        ],
+        "action": "accept"
+      },
+      {
+        "chain": "input",
+        "in": "hotspot",
+        "proto": "tcp+udp",
+        "ports": [
+          "5000-5001",
+          5020,
+          "6000-6003",
+          6011,
+          6020,
+          6030,
+          7000
+        ],
+        "both_ways": true,
+        "action": "accept",
+        "when": "settings.bridge",
+        "comment": "Wireless CarPlay: mirror the stock wired-interface TCP/UDP port allowlist on the hotspot"
+      },
+      {
+        "chain": "input",
+        "in": "hotspot",
+        "proto": "icmpv6",
+        "action": "accept",
+        "when": "settings.bridge",
+        "comment": "Wireless CarPlay: allow ICMPv6 for IPv6 link-local connectivity on the hotspot"
+      }
+    ]
+  },
   "logs": {
     "tags": [
       "DiPO",
@@ -109,7 +158,8 @@
     "native": {
       "libautoreceiver_infobank.so": [
         "recipes/aa-tbt-48ee793a.recipe",
-        "recipes/aa-tbt-a0bea1c4.recipe"
+        "recipes/aa-tbt-a0bea1c4.recipe",
+        "recipes/aa-tbt-dbfe7bd2.recipe"
       ],
       "libCarPlayCore.so": [
         "recipes/carplay-core-wifi.recipe"
